@@ -34,4 +34,7 @@ data/CSL/*.pkl
 data/CSL/*.zip
 data/CSL/*.pt
 
+mnt/
+mjkey.txt
+.idea/
 
