@@ -28,6 +28,8 @@ class GatedGCNNet(nn.Module):
         self.residual = net_params['residual']
         self.edge_feat = net_params['edge_feat']
         self.device = net_params['device']
+        self.freeze_encoder = net_params['freeze_encoder']
+        self.freeze_encoder = net_params['freeze_decoder']
         
         self.embedding_h = nn.Linear(in_dim, hidden_dim)
         self.embedding_e = nn.Linear(in_dim_edge, hidden_dim)
@@ -35,6 +37,15 @@ class GatedGCNNet(nn.Module):
                                                     self.batch_norm, self.residual) for _ in range(n_layers-1) ]) 
         self.layers.append(GatedGCNLayer(hidden_dim, out_dim, dropout, self.batch_norm, self.residual))
         self.MLP_layer = MLPReadout(out_dim, n_classes)
+
+        if self.freeze_encoder:
+            for param in self.embedding_h.parameters():
+                param.requires_grad = False
+            for param in self.embedding_e.parameters():
+                param.requires_grad = False
+        if self.freeze_decoder:
+            for param in self.MLP_layer.parameters():
+                param.requires_grad = False
         
     def forward(self, g, h, e):
 
