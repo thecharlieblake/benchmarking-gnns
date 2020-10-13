@@ -29,7 +29,7 @@ class GatedGCNNet(nn.Module):
         self.edge_feat = net_params['edge_feat']
         self.device = net_params['device']
         self.freeze_encoder = net_params['freeze_encoder']
-        self.freeze_encoder = net_params['freeze_decoder']
+        self.freeze_decoder = net_params['freeze_decoder']
         
         self.embedding_h = nn.Linear(in_dim, hidden_dim)
         self.embedding_e = nn.Linear(in_dim_edge, hidden_dim)
